@@ -2,9 +2,9 @@ name: example-action
 run-name: ${{ github.actor }} is learning GitHub Actions
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types:
+      - opened
 
 env:
   CARGO_TERM_COLOR: always
