@@ -1,4 +1,4 @@
-name: example-action
+name: pull-request-workflow
 run-name: ${{ github.actor }} is learning GitHub Actions
 
 on:
@@ -10,9 +10,9 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  example-job-name:
+  fmt-lint-build-test:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - name: build
-        run: cargo build --verbose
+      - name: .githooks/pre-push
+        run: ../../.githooks/pre-push
