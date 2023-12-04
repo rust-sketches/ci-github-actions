@@ -15,4 +15,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: .githooks/pre-push
-        run: ../../.githooks/pre-push
+        run: .githooks/pre-push
