@@ -1,8 +1,8 @@
-name: pull-request-workflow
-run-name: ${{ github.actor }} is learning GitHub Actions
+name: pull-request
 
 # runs on new / reopened PRs and new commits to existing PRs
 # see: https://github.com/orgs/community/discussions/25161#discussioncomment-3246673
+
 on: pull_request
 
 env:
