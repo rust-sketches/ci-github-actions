@@ -1,0 +1,20 @@
+name: pull-request-merged
+
+# runs on new / reopened PRs and new commits to existing PRs
+# see: https://github.com/orgs/community/discussions/25161#discussioncomment-3246673
+
+on:
+  pull_request:
+    types:
+      - closed
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  placeholder-job:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "placeholder job -- should create artifacts and deploy"

@@ -22,7 +22,7 @@ Most CI pipelines should
 - check formatting / lints
 - check documentation coverage (if possible)
 - check that the code compiles
-- run tests (and, usually simultaneously, check test coverage)
+- run unit and integration tests (and, usually simultaneously, check test coverage)
 
 We put the more computationally-expensive tasks later, so that if the formatting check fails, we haven't already wasted a bunch of CPU cycles compiling and running the tests.
 
@@ -41,8 +41,12 @@ git config --local core.hooksPath .githooks
 You also need to make all hooks executable with
 
 ```shell
-chmod +x .githooks/*
+git update-index --chmod=+x .githooks/*
 ```
+
+We use `git` above, instead of `chmod` directly, for cross-platform compatibility.
+
+See: https://stackoverflow.com/a/40979016
 
 ## see also
 
