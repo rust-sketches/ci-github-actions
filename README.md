@@ -38,6 +38,12 @@ In order to keep Git hooks under source control, they must be defined outside th
 git config --local core.hooksPath .githooks
 ```
 
+You also need to make all hooks executable with
+
+```shell
+chmod +x .githooks/*
+```
+
 ## see also
 
 - https://docs.github.com/en/actions/learn-github-actions
