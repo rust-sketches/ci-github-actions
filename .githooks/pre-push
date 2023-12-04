@@ -4,13 +4,17 @@
 set -e
 
 # check formatting
+echo "checking format with rustfmt..."
 cargo fmt --all -- --check
 
 # check for lint
+echo "removing lint with clippy..."
 cargo clippy --all-targets --all-features -- -D warnings
 
 # check that the project builds
+echo "building..."
 cargo build --verbose
 
 # run tests
+echo "testing..."
 cargo test
