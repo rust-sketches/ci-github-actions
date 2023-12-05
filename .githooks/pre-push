@@ -22,7 +22,7 @@ echo "setting up grcov..."
 which grcov || cargo install grcov
 rustup component add llvm-tools-preview
 
-export RUSTFLAGS="-C instrument-coverage" # create *.profraw files
+export RUSTFLAGS="-Cinstrument-coverage" # create *.profraw files
 COVERAGE_DIR="target/coverage" # where the *.profraw files live
 export LLVM_PROFILE_FILE="$COVERAGE_DIR/grcov-%p-%m.profraw"
 
@@ -36,13 +36,16 @@ cargo test # generates *.profraw files because of '-C instrument-coverage'
 
 # generate human-readable HTML report
 # see: https://github.com/mozilla/grcov#man-grcov
-COMPILED_CODE_DIR="target/debug" # where is the compiled Rust code?
+SOURCE_CODE_DIR="src" # where is the source code?
+COMPILED_CODE_DIR="target/debug" # where is the compiled code?
 HTML_OUTPUT_DIR="$COVERAGE_DIR"
 
 grcov "$COVERAGE_DIR" \
+  -s "$SOURCE_CODE_DIR" \
   --binary-path "$COMPILED_CODE_DIR" \
   --branch \
-  --excl-start "// coverage: off" \
+  --excl-line "// coverage: off" \
+  --excl-start "(// coverage: off|mod tests \{|fn main\(\) \{)" \
   --excl-stop "// coverage: on" \
   -t html \
   -o $HTML_OUTPUT_DIR
