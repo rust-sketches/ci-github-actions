@@ -15,3 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: .githooks/pre-push
         run: .githooks/pre-push
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: target/coverage/html/index.html
