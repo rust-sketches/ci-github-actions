@@ -69,7 +69,7 @@ grcov "$COVERAGE_DIR" \
 COVERAGE_PCT="$(sed -r 's/.*"message":"(.*)%".*/\1/g' "$COVERAGE_DIR/html/coverage.json")"
 COVERAGE_MIN="100.0"
 
-if [ "$(echo "$COVERAGE_PCT >= $COVERAGE_MIN" | bc)" -eq 1 ]; then
+if awk -v pct="$COVERAGE_PCT" -v min="$COVERAGE_MIN" 'BEGIN{exit !(pct >= min)}'; then
   echo "Coverage limit of $COVERAGE_MIN satisfied ($COVERAGE_PCT >= $COVERAGE_MIN)."
 else
   echo "Coverage limit of $COVERAGE_MIN not satisfied ($COVERAGE_PCT < $COVERAGE_MIN)."
