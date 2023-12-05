@@ -10,7 +10,8 @@ env:
 
 jobs:
   fmt-lint-build-test:
-    runs-on: macos-latest
+    runs-on: ubuntu-22.04
+    container: xd009642/tarpaulin:0.27.2
     steps:
       - uses: actions/checkout@v4
       - name: .githooks/pre-push

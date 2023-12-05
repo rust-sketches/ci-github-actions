@@ -25,5 +25,5 @@ cargo build --verbose
 
 # run tests with coverage
 echo "running tests with coverage..."
-cargo install cargo-tarpaulin
+cargo install cargo-tarpaulin # if it's not already installed
 cargo tarpaulin --fail-under 100 # require 100% coverage
