@@ -10,6 +10,7 @@ cargo fmt --all -- --check
 
 # check for lint
 echo "removing lint with clippy..."
+rustup component add clippy # if it's not already installed
 cargo clippy --all-targets --all-features -- -D warnings
 
 # check documentation coverage whenever --show-coverage is stabilized
