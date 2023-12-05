@@ -1,4 +1,5 @@
-#[cfg(not(tarpaulin_include))]
+// coverage: off
 fn main() {
     println!("Hello, world!");
 }
+// coverage: on

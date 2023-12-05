@@ -17,17 +17,43 @@ cargo clippy --all-targets --all-features -- -D warnings
 # see: https://github.com/rust-lang/rust/issues/58154
 # cargo rustdoc -- --show-coverage
 
+# set up grcov for test coverage analysis
+echo "setting up grcov..."
+which grcov || cargo install grcov
+rustup component add llvm-tools-preview
+
+export RUSTFLAGS="-C instrument-coverage" # create *.profraw files
+COVERAGE_DIR="target/coverage" # where the *.profraw files live
+export LLVM_PROFILE_FILE="$COVERAGE_DIR/grcov-%p-%m.profraw"
+
 # check that the project builds
 echo "building..."
 cargo build --verbose
 
 # run tests
-# echo "testing..."
-# cargo test
+echo "testing..."
+cargo test # generates *.profraw files because of '-C instrument-coverage'
 
-# run tests with coverage
-echo "running tests with coverage..."
-which cargo-tarpaulin || cargo install cargo-tarpaulin # if it's not already installed
+# generate human-readable HTML report
+# see: https://github.com/mozilla/grcov#man-grcov
+COMPILED_CODE_DIR="target/debug" # where is the compiled Rust code?
+HTML_OUTPUT_DIR="$COVERAGE_DIR"
 
-# sudo required below on CI because of https://github.com/actions-rs/tarpaulin/issues/24
-sudo cargo tarpaulin --fail-under 100 # require 100% coverage
+grcov "$COVERAGE_DIR" \
+  --binary-path "$COMPILED_CODE_DIR" \
+  --branch \
+  --excl-start "// coverage: off" \
+  --excl-stop "// coverage: on" \
+  -t html \
+  -o $HTML_OUTPUT_DIR
+
+# extract coverage percentage
+COVERAGE_PCT="$(sed -r 's/.*"message":"(.*)%".*/\1/g' "$COVERAGE_DIR/html/coverage.json")"
+COVERAGE_MIN="100.0"
+
+if [ "$(echo "$COVERAGE_PCT >= $COVERAGE_MIN" | bc)" -eq 1 ]; then
+  echo "Coverage limit of $COVERAGE_MIN satisfied ($COVERAGE_PCT >= $COVERAGE_MIN)."
+else
+  echo "Coverage limit of $COVERAGE_MIN not satisfied ($COVERAGE_PCT < $COVERAGE_MIN)."
+  exit 1
+fi
