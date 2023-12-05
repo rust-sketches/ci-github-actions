@@ -31,7 +31,6 @@ cargo build --verbose
 echo "checking if tarpaulin is installed..."
 cargo install --list
 cargo install --list | grep -c cargo-tarpaulin
-"$(cargo install --list | grep -c cargo-tarpaulin)" -eq 0
 if [ "$(cargo install --list | grep -c cargo-tarpaulin)" -eq 0 ]; then
   cargo install cargo-tarpaulin --version=0.27.2
 fi
