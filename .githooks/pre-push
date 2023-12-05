@@ -5,6 +5,7 @@ set -e
 
 # check formatting
 echo "checking format with rustfmt..."
+rustup component add rustfmt # if it's not already installed
 cargo fmt --all -- --check
 
 # check for lint
