@@ -25,16 +25,7 @@ cargo build --verbose
 # echo "testing..."
 # cargo test
 
-# install tarpaulin if it's not already installed
-# if we try to install it and it already exists, GitHub CI fails with
-#   error: binary `cargo-tarpaulin` already exists in destination
-echo "checking if tarpaulin is installed..."
-cargo install --list
-cargo install --list | grep -c cargo-tarpaulin
-if [ "$(cargo install --list | grep -c cargo-tarpaulin)" -eq 0 ]; then
-  cargo install cargo-tarpaulin --version=0.27.2
-fi
-
 # run tests with coverage
 echo "running tests with coverage..."
+which cargo-tarpaulin || cargo install cargo-tarpaulin # if it's not already installed
 cargo tarpaulin --fail-under 100 # require 100% coverage
