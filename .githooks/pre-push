@@ -3,6 +3,12 @@
 # exit when any command fails
 set -e
 
+#-------------------------------------------------------------------------------
+#
+#  code cleanliness
+#
+#-------------------------------------------------------------------------------
+
 # check formatting
 echo "checking format with rustfmt..."
 rustup component add rustfmt # if it's not already installed
@@ -17,6 +23,12 @@ cargo clippy --all-targets --all-features -- -D warnings
 # see: https://github.com/rust-lang/rust/issues/58154
 # cargo rustdoc -- --show-coverage
 
+#-------------------------------------------------------------------------------
+#
+#  build and test
+#
+#-------------------------------------------------------------------------------
+
 # set up grcov for test coverage analysis
 echo "setting up grcov..."
 which grcov || cargo install grcov
@@ -29,6 +41,9 @@ export LLVM_PROFILE_FILE="$COVERAGE_DIR/grcov-%p-%m.profraw"
 # check that the project builds
 echo "building..."
 cargo build --verbose
+
+# clean the directory, then populate it
+rm -rf "$COVERAGE_DIR"
 
 # run tests
 echo "testing..."

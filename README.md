@@ -46,6 +46,12 @@ git update-index --chmod=+x .githooks/*
 
 We use `git` above, instead of `chmod` directly, for cross-platform compatibility.
 
+To run (the bulk of) the CI pipeline locally, simply execute the `pre-push` hook as a script
+
+```shell
+sh .githooks/pre-push
+```
+
 See: https://stackoverflow.com/a/40979016
 
 ## see also
