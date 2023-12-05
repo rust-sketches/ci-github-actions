@@ -11,10 +11,19 @@ cargo fmt --all -- --check
 echo "removing lint with clippy..."
 cargo clippy --all-targets --all-features -- -D warnings
 
+# check documentation coverage whenever --show-coverage is stabilized
+# see: https://github.com/rust-lang/rust/issues/58154
+# cargo rustdoc -- --show-coverage
+
 # check that the project builds
 echo "building..."
 cargo build --verbose
 
 # run tests
-echo "testing..."
-cargo test
+# echo "testing..."
+# cargo test
+
+# run tests with coverage
+echo "running tests with coverage..."
+cargo install cargo-tarpaulin
+cargo tarpaulin --fail-under 100 # require 100% coverage
