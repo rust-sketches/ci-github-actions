@@ -11,6 +11,7 @@ env:
 jobs:
   fmt-lint-build-test:
     runs-on: ubuntu-22.04
+    container: awwsmm/rust-ci:latest
     steps:
       - uses: actions/checkout@v4
       - name: .githooks/pre-push
