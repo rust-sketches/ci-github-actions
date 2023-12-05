@@ -10,8 +10,12 @@ env:
 
 jobs:
   fmt-lint-build-test:
-    runs-on: macos-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - name: .githooks/pre-push
         run: .githooks/pre-push
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: target/coverage/html/*.html # don't upload svg images each time
